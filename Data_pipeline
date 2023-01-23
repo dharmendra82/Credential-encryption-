@@ -1,0 +1,60 @@
+import org.apache.spark.sql.SparkSession;
+
+public class DataPipeline {
+
+    public static void main(String[] args) {
+        // Set input and output table names
+        String inputTable = args[0];
+        String outputTable = args[1];
+
+        // Create a Spark session
+        SparkSession spark = SparkSession.builder()
+                .appName("Data Pipeline")
+                .config("spark.sql.warehouse.dir", "/user/hive/warehouse")
+                .enableHiveSupport()
+                .getOrCreate();
+
+        // Read data from input table
+        DataFrame inputData = spark.sql("SELECT * FROM " + inputTable);
+
+        // Perform any necessary transformations on the data
+        // ...
+
+        // Write data to output table
+        inputData.write()
+                .mode("overwrite")
+                .saveAsTable(outputTable);
+
+        spark.stop();
+    }
+}
+
+// Perform any necessary transformations on the data
+
+DataFrame transformedData = inputData.withColumnRenamed("oldColName", "newColName")
+        .withColumn("newCol", inputData.col("col1").plus(inputData.col("col2")))
+        .filter(inputData.col("col3").gt(5));
+
+
+public static void moveData(String inputTable, String outputTable) {
+        // Create a Spark session
+        SparkSession spark = SparkSession.builder()
+                .appName("Data Pipeline")
+                .config("spark.sql.warehouse.dir", "/user/hive/warehouse")
+                .enableHiveSupport()
+                .getOrCreate();
+
+        // Read data from input table
+        DataFrame inputData = spark.sql("SELECT * FROM " + inputTable);
+
+        // Perform any necessary transformations on the data
+        // ...
+
+        // Write data to output table
+        inputData.write()
+                .mode("overwrite")
+                .saveAsTable(outputTable);
+
+        spark.stop();
+    }
+
